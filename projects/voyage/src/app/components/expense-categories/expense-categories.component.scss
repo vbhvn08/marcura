@@ -1,0 +1,15 @@
+table {
+  border: 1px solid #d2dee2;
+
+  thead {
+    background-color: #297dae;
+  }
+
+  tr.comment {
+    background-color: #edf7fc;
+  }
+
+  tfoot {
+    border-top: 2px solid #297dae;
+  }
+}

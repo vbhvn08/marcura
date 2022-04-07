@@ -1,0 +1,72 @@
+<table class="table align-middle">
+  <thead class="text-white">
+    <tr>
+      <th scope="col" class="col-2 fw-normal">{{ expenseCategory.name }}</th>
+      <th scope="col" class="col-2 fw-normal">Account code</th>
+      <th scope="col" class="col-2 fw-normal text-end">Quoted</th>
+      <th scope="col" class="col-2 fw-normal text-end">Screened</th>
+      <th scope="col" class="col-3 fw-normal"></th>
+    </tr>
+  </thead>
+  <tbody
+    *ngFor="let costItem of expenseCategory.costItems"
+    class="border-top-0"
+  >
+    <tr>
+      <td>{{ costItem.name }}</td>
+      <td>{{ costItem.costItemAlias.accountingCode }}</td>
+      <td *ngFor="let cost of costItem.costs" class="text-end">
+        <div>{{ getAmountInSelectedCurrency(cost.amount) }}</div>
+        <small>
+          <div class="fw-light text-secondary">
+            {{ getAmountInBaseCurrency(cost.amount) }}
+          </div></small
+        >
+      </td>
+      <td class="text-center">
+        <a
+          class="text-decoration-none text-black"
+          data-bs-toggle="collapse"
+          [href]="'#cost-item-' + costItem.id"
+          role="button"
+          aria-expanded="false"
+        >
+          <i class="bi bi-chat-square me-2 text-secondary"></i
+          >{{ costItem.comments ? costItem.comments.length : 0 }}
+        </a>
+      </td>
+    </tr>
+    <tr
+      *ngIf="costItem.comments && costItem.comments.length > 0"
+      class="comment collapse"
+      [id]="'cost-item-' + costItem.id"
+    >
+      <td colspan="5">
+        <app-comments [comments]="costItem.comments"></app-comments>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Total</td>
+      <td></td>
+      <td class="text-end">
+        <div>{{ getAmountInSelectedCurrency(totalQuoted) }}</div>
+        <small>
+          <div class="fw-light text-secondary">
+            {{ getAmountInBaseCurrency(totalQuoted) }}
+          </div></small
+        >
+      </td>
+      <td class="text-end">
+        <div>{{ getAmountInSelectedCurrency(totalScreened) }}</div>
+        <small>
+          <div class="fw-light text-secondary">
+            {{ getAmountInBaseCurrency(totalScreened) }}
+          </div></small
+        >
+      </td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
