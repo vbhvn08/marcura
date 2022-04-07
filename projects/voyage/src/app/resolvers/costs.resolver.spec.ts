@@ -1,16 +1,24 @@
-import { TestBed } from '@angular/core/testing';
-
 import { CostsResolver } from './costs.resolver';
+import {SpectatorService} from "@ngneat/spectator";
+import {createServiceFactory, mockProvider} from "@ngneat/spectator/jest";
+import {CostsService} from "../services/costs.service";
 
 describe('CostsResolver', () => {
-  let resolver: CostsResolver;
+  let spectator: SpectatorService<CostsResolver>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    resolver = TestBed.inject(CostsResolver);
+  const createService = createServiceFactory({
+    service: CostsResolver,
+    providers: [
+      mockProvider(CostsService, {
+        getCosts: () => {},
+      }),
+    ],
+    entryComponents: [],
+    mocks: []
   });
+  beforeEach(() => spectator = createService());
 
   it('should be created', () => {
-    expect(resolver).toBeTruthy();
+    expect(spectator.service).toBeTruthy();
   });
 });

@@ -37,7 +37,7 @@ export interface Comment {
   author: string;
   comment: string;
   type: string;
-  date: Date;
+  date: string;
 }
 
 export interface CostItemAlias {

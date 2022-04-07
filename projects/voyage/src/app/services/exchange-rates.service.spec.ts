@@ -1,16 +1,20 @@
-import { TestBed } from '@angular/core/testing';
-
 import { ExchangeRatesService } from './exchange-rates.service';
+import {SpectatorService} from "@ngneat/spectator";
+import {createServiceFactory} from "@ngneat/spectator/jest";
+import {HttpClient} from "@angular/common/http";
 
 describe('ExchangeRatesService', () => {
-  let service: ExchangeRatesService;
+  let spectator: SpectatorService<ExchangeRatesService>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ExchangeRatesService);
+  const createService = createServiceFactory({
+    service: ExchangeRatesService,
+    providers: [],
+    entryComponents: [],
+    mocks: [HttpClient]
   });
+  beforeEach(() => spectator = createService());
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(spectator.service).toBeTruthy();
   });
 });

@@ -1,24 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CostItemComponent } from './cost-item.component';
+import {Spectator} from "@ngneat/spectator";
+import {createComponentFactory} from "@ngneat/spectator/jest";
 
 describe('CostItemComponent', () => {
-  let component: CostItemComponent;
-  let fixture: ComponentFixture<CostItemComponent>;
+  let spectator: Spectator<CostItemComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CostItemComponent],
-    }).compileComponents();
+  const createComponent = createComponentFactory({
+    component: CostItemComponent,
+    declarations: [],
+    detectChanges: false,
+    providers: [],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostItemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

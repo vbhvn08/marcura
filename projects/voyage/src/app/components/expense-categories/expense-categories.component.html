@@ -12,7 +12,7 @@
     *ngFor="let costItem of expenseCategory.costItems"
     class="border-top-0"
   >
-    <tr>
+    <tr data-testid="cost-item">
       <td>{{ costItem.name }}</td>
       <td>{{ costItem.costItemAlias.accountingCode }}</td>
       <td *ngFor="let cost of costItem.costs" class="text-end">

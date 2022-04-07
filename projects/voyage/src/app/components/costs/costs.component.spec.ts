@@ -1,24 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CostsComponent } from './costs.component';
+import {Spectator} from "@ngneat/spectator";
+import {createComponentFactory, mockProvider} from "@ngneat/spectator/jest";
+import { DecimalPipe} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
+import {of} from "rxjs";
 
 describe('CostsComponent', () => {
-  let component: CostsComponent;
-  let fixture: ComponentFixture<CostsComponent>;
+  let spectator: Spectator<CostsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CostsComponent],
-    }).compileComponents();
+  const activatedRouteMock = {
+    snapshot: { data: {costs: '', exchangeRates: ''} },
+    queryParams: of({}),
+  };
+
+  const createComponent = createComponentFactory({
+    component: CostsComponent,
+    declarations: [],
+    detectChanges: false,
+    providers: [
+      mockProvider(DecimalPipe),
+      mockProvider(ActivatedRoute, activatedRouteMock),
+    ],
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CostsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async () => {
+    spectator = createComponent();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseCurrency, Exchange, Expense } from '../../interfaces/voyage.types';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-costs',
@@ -29,8 +29,6 @@ export class CostsComponent implements OnInit {
     this.selectedCurrency = this.daCurrency;
     this.exchangeRates =
       this.route.snapshot.data['exchangeRates'].paymentCurrencies;
-    console.log(this.expenses);
-    console.log(this.exchangeRates);
     this.getCurrencyConversion();
   }
 
