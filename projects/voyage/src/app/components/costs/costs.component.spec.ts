@@ -50,7 +50,6 @@ describe('CostsComponent', () => {
   it('should show currency conversion value', () => {
     spectator.detectChanges();
     const currencyConversionText = spectator.queryAll(byTestId('currency-conversion'));
-    console.log(currencyConversionText);
     expect(currencyConversionText).toHaveExactText('1 USD = 1.3161012235523601 SGD');
   });
 });
