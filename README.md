@@ -1,6 +1,6 @@
-# Mercura
+# Marcura
 
-![CI](https://github.com/vbhvn08/mercura/actions/workflows/main.yml/badge.svg) CI pipelines
+![CI](https://github.com/vbhvn08/marcura/actions/workflows/main.yml/badge.svg) CI pipelines
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6cbefd09-1325-4384-82cd-2217700cc7f9/deploy-status)](https://app.netlify.com/sites/symphonious-kangaroo-24f76c/deploys)
 
