@@ -2,7 +2,8 @@ import {ExpenseCategoriesComponent} from './expense-categories.component';
 import {byTestId, Spectator} from "@ngneat/spectator";
 import {createComponentFactory, mockProvider} from "@ngneat/spectator/jest";
 import {CurrencyPipe} from "@angular/common";
-import {CostType} from "../../interfaces/voyage.types";
+import {costsResponseMock, exchangeRatesMock} from "../../app.mocks";
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('ExpenseCategoriesComponent', () => {
   let spectator: Spectator<ExpenseCategoriesComponent>;
@@ -11,98 +12,20 @@ describe('ExpenseCategoriesComponent', () => {
     component: ExpenseCategoriesComponent,
     declarations: [],
     detectChanges: false,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
-      mockProvider(CurrencyPipe)
+      mockProvider(CurrencyPipe, {
+        transform: (key: any) => key
+      }),
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    spectator.component.expenseCategory = {
-      "id": 716,
-      "name": "Port Expenses",
-      "displayOrder": 1,
-      "costItems": [
-        {
-          "id": 1796,
-          "name": "Barge Expenses",
-          "costItemAlias": {
-            "accountingCode": "Acc-01"
-          },
-          "annotation": {
-            "id": 30002,
-            "name": "Asia"
-          },
-          "costs": [
-            {
-              "daStage": "PDA",
-              "persona": "BACKOFFICE",
-              "type": CostType.Quoted,
-              "amount": 1500
-            },
-            {
-              "daStage": "PDA",
-              "persona": "BACKOFFICE",
-              "type": CostType.Screened,
-              "amount": 1500
-            }
-          ],
-          "comments": [
-            {
-              "id": 503,
-              "daStage": "PDA",
-              "persona": "BACKOFFICE",
-              "author": "Mr. Agency BO",
-              "comment": "Comment 1",
-              "type": "Internal",
-              "date": "2021-03-01T10:15:35.927924Z"
-            }
-          ]
-        },
-        {
-          "id": 1797,
-          "name": "Fire Guard",
-          "costItemAlias": {
-            "accountingCode": "Acc-02"
-          },
-          "annotation": {
-            "id": 30002,
-            "name": "Asia"
-          },
-          "costs": [
-            {
-              "daStage": "PDA",
-              "persona": "BACKOFFICE",
-              "type": CostType.Quoted,
-              "amount": 5400
-            },
-            {
-              "daStage": "PDA",
-              "persona": "BACKOFFICE",
-              "type": CostType.Screened,
-              "amount": 5400
-            }
-          ],
-          "comments": [
-            {
-              "id": 504,
-              "daStage": "PDA",
-              "persona": "BACKOFFICE",
-              "author": "Mr. Agency BO",
-              "comment": "Comment 2",
-              "type": "External",
-              "date": "2021-03-01T10:15:46.363755Z"
-            }
-          ]
-        }
-      ]
-    };
+    spectator.component.expenseCategory = costsResponseMock.costs[0] as any;
     spectator.component.selectedCurrency = 'SGD';
-    spectator.component.exchange = { "fromCurrency": "SGD", "toCurrency": "SGD", "exchangeRate": 1 };
-    spectator.component.baseCurrency = {
-      "currency": "USD",
-      "exchangeRate": 0.7598199759292418
-    };
+    spectator.component.exchange = exchangeRatesMock.paymentCurrencies.find(paymentCurrency => paymentCurrency.toCurrency === 'SGD') as any;
+    spectator.component.baseCurrency = costsResponseMock.baseCurrency;
 
   });
 
@@ -114,5 +37,28 @@ describe('ExpenseCategoriesComponent', () => {
     spectator.detectChanges();
     const rows = spectator.queryAll(byTestId('cost-item'));
     expect(rows.length).toBe(2);
+  });
+  it('should display amount in selected currency', () => {
+    spectator.detectChanges();
+    const amountInSelectedCurrency = spectator.queryAll(byTestId('amount-in-selected-currency'))[0];
+    expect(amountInSelectedCurrency).toHaveExactText(' 1500 ');
+  });
+
+  it('should display amount in base currency', () => {
+    spectator.detectChanges();
+    const amountInBaseCurrency = spectator.queryAll(byTestId('amount-in-base-currency'))[0];
+    expect(amountInBaseCurrency).toHaveExactText(' 1139.7299638938628 ');
+  });
+
+  it('should display total quoted amount in selected currency', () => {
+    spectator.detectChanges();
+    const amountInSelectedCurrency = spectator.query(byTestId('quoted-total-in-selected-currency'));
+    expect(amountInSelectedCurrency).toHaveExactText('6900');
+  });
+
+  it('should display total quoted amount in base currency', () => {
+    spectator.detectChanges();
+    const amountInBaseCurrency = spectator.query(byTestId('quoted-total-in-base-currency'));
+    expect(amountInBaseCurrency).toHaveExactText(' 5242.757833911768 ');
   });
 });

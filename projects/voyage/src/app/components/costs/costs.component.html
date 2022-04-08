@@ -6,6 +6,7 @@
     <div class="col-8 ms-auto text-end">
       <span class="me-2">Currency</span>
       <select
+        data-testid="currency-select"
         class="me-2 form-select form-select-sm d-inline w-auto"
         (change)="onCurrencySelect($event)"
       >
@@ -17,7 +18,7 @@
           {{ exchangeRate.toCurrency }}
         </option>
       </select>
-      <span>{{ getCurrencyConversion() }}</span>
+      <span data-testid="currency-conversion">{{ getCurrencyConversion() }}</span>
     </div>
   </div>
   <div class="row">

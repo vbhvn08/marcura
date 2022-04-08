@@ -16,12 +16,17 @@
       <td>{{ costItem.name }}</td>
       <td>{{ costItem.costItemAlias.accountingCode }}</td>
       <td *ngFor="let cost of costItem.costs" class="text-end">
-        <div>{{ getAmountInSelectedCurrency(cost.amount) }}</div>
+        <div data-testid="amount-in-selected-currency">
+          {{ getAmountInSelectedCurrency(cost.amount) }}
+        </div>
         <small>
-          <div class="fw-light text-secondary">
+          <div
+            class="fw-light text-secondary"
+            data-testid="amount-in-base-currency"
+          >
             {{ getAmountInBaseCurrency(cost.amount) }}
-          </div></small
-        >
+          </div>
+        </small>
       </td>
       <td class="text-center">
         <a
@@ -30,6 +35,7 @@
           [href]="'#cost-item-' + costItem.id"
           role="button"
           aria-expanded="false"
+          data-testid="comment-icon"
         >
           <i class="bi bi-chat-square me-2 text-secondary"></i
           >{{ costItem.comments ? costItem.comments.length : 0 }}
@@ -40,6 +46,7 @@
       *ngIf="costItem.comments && costItem.comments.length > 0"
       class="comment collapse"
       [id]="'cost-item-' + costItem.id"
+      data-testid="comment-item"
     >
       <td colspan="5">
         <app-comments [comments]="costItem.comments"></app-comments>
@@ -51,9 +58,12 @@
       <td>Total</td>
       <td></td>
       <td class="text-end">
-        <div>{{ getAmountInSelectedCurrency(totalQuoted) }}</div>
+        <div data-testid="quoted-total-in-selected-currency">{{ getAmountInSelectedCurrency(totalQuoted) }}</div>
         <small>
-          <div class="fw-light text-secondary">
+          <div
+            class="fw-light text-secondary"
+            data-testid="quoted-total-in-base-currency"
+          >
             {{ getAmountInBaseCurrency(totalQuoted) }}
           </div></small
         >
