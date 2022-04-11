@@ -14,7 +14,7 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class ExpenseCategoriesComponent implements OnInit {
   @Input()
-  expenseCategory: Expense = {} as Expense;
+  expenseCategory: Expense;
   @Input()
   selectedCurrency: string;
   @Input()

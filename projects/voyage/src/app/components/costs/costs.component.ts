@@ -27,24 +27,28 @@ export class CostsComponent implements OnInit {
     this.baseCurrency = costsResponse.baseCurrency;
     this.daCurrency = costsResponse.daCurrency.currency;
     this.selectedCurrency = this.daCurrency;
+    this.setExchange();
     this.exchangeRates =
       this.route.snapshot.data['exchangeRates'].paymentCurrencies;
-    this.getCurrencyConversion();
   }
 
   onCurrencySelect(selectedCurrency: any) {
     this.selectedCurrency = selectedCurrency.target.value;
-    this.exchange =
-      this.exchangeRates.find(
-        (rate) => rate.toCurrency === this.selectedCurrency
-      ) || ({} as Exchange);
+    this.setExchange();
+  }
+
+  setExchange() {
+    this.exchange = this.exchangeRates.find(
+      (rate) => rate.toCurrency === this.selectedCurrency
+    ) || ({} as Exchange)
   }
 
   getCurrencyConversion(): string {
-    const exchangeRate = this.decimalPipe.transform(
-      1 / this.baseCurrency?.exchangeRate,
+    const exchangeRate = (this.exchange?.exchangeRate || 1) / this.baseCurrency?.exchangeRate;
+    const transformRate = this.decimalPipe.transform(
+      exchangeRate,
       '1.2-4'
     );
-    return `1 ${this.baseCurrency?.currency} = ${exchangeRate} ${this.daCurrency}`;
+    return `1 ${this.baseCurrency?.currency} = ${transformRate} ${this.selectedCurrency}`;
   }
 }

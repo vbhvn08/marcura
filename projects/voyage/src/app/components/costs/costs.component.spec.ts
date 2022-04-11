@@ -49,7 +49,13 @@ describe('CostsComponent', () => {
 
   it('should show currency conversion value', () => {
     spectator.detectChanges();
-    const currencyConversionText = spectator.queryAll(byTestId('currency-conversion'));
+    const currencyConversionText = spectator.query(byTestId('currency-conversion'));
     expect(currencyConversionText).toHaveExactText('1 USD = 1.3161012235523601 SGD');
+
+    spectator.component.onCurrencySelect({ target: {value: 'EUR'}});
+    spectator.detectChanges();
+    const currencyConversionTextEUR = spectator.query(byTestId('currency-conversion'));
+    expect(currencyConversionTextEUR).toHaveExactText('1 USD = 0.8281170590474101 EUR');
+
   });
 });
