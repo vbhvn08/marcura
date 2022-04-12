@@ -8,6 +8,9 @@ import { ExpenseCategoriesComponent } from './components/expense-categories/expe
 import { HttpClientModule } from '@angular/common/http';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { CommentsComponent } from './components/comments/comments.component';
+import { CostItemComponent } from './components/cost-item/cost-item.component';
+import { AmountDisplayComponent } from './components/amount-display/amount-display.component';
+import { AmountEditableComponent } from './components/amount-editable/amount-editable.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +18,9 @@ import { CommentsComponent } from './components/comments/comments.component';
     CostsComponent,
     ExpenseCategoriesComponent,
     CommentsComponent,
+    CostItemComponent,
+    AmountDisplayComponent,
+    AmountEditableComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [CurrencyPipe, DecimalPipe],

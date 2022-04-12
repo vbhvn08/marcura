@@ -26,7 +26,6 @@
       <div *ngFor="let expense of expenses">
         <app-expense-categories
           [expenseCategory]="expense"
-          [selectedCurrency]="selectedCurrency"
           [exchange]="exchange"
           [baseCurrency]="baseCurrency"
         ></app-expense-categories>

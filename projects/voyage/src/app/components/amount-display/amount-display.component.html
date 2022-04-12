@@ -1,0 +1,11 @@
+<div data-testid="amount-in-selected-currency">
+  {{ amount * (exchange.exchangeRate|| 1) | currency: exchange.toCurrency: 'code': '1.2-2' }}
+</div>
+<small>
+  <div
+    class="fw-light text-secondary"
+    data-testid="amount-in-base-currency"
+  >
+    {{ amount * (baseCurrency.exchangeRate|| 1) | currency: baseCurrency.currency: 'code': '1.2-2' }}
+  </div>
+</small>

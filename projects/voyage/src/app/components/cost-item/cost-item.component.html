@@ -1,0 +1,46 @@
+<ng-template #costItemTemplate>
+  <tbody class="border-top-0">
+  <tr data-testid="cost-item">
+    <td>{{ costItem.name }}</td>
+    <td>{{ costItem.costItemAlias.accountingCode }}</td>
+    <td class="text-end">
+      <app-amount-display
+        [amount]="quoted"
+        [exchange]="exchange"
+        [baseCurrency]="baseCurrency"
+      ></app-amount-display>
+    </td>
+    <td class="text-end">
+      <app-amount-editable
+        [amount]="screened"
+        [exchange]="exchange"
+        [baseCurrency]="baseCurrency"
+        (change)="amountChanged($event)"
+      ></app-amount-editable>
+    </td>
+    <td class="text-center">
+      <a
+        class="text-decoration-none text-black"
+        data-bs-toggle="collapse"
+        [href]="'#cost-item-' + costItem.id"
+        role="button"
+        aria-expanded="false"
+        data-testid="comment-icon"
+      >
+        <i class="bi bi-chat-square me-2 text-secondary"></i
+        >{{ costItem.comments ? costItem.comments.length : 0 }}
+      </a>
+    </td>
+  </tr>
+  <tr
+    *ngIf="costItem.comments && costItem.comments.length > 0"
+    class="comment collapse"
+    [id]="'cost-item-' + costItem.id"
+    data-testid="comment-item"
+  >
+    <td colspan="5">
+      <app-comments [comments]="costItem.comments"></app-comments>
+    </td>
+  </tr>
+  </tbody>
+</ng-template>

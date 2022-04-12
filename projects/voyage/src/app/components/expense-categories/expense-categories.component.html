@@ -8,73 +8,35 @@
       <th scope="col" class="col-3 fw-normal"></th>
     </tr>
   </thead>
-  <tbody
+  <ng-container
     *ngFor="let costItem of expenseCategory.costItems"
-    class="border-top-0"
   >
-    <tr data-testid="cost-item">
-      <td>{{ costItem.name }}</td>
-      <td>{{ costItem.costItemAlias.accountingCode }}</td>
-      <td *ngFor="let cost of costItem.costs" class="text-end">
-        <div data-testid="amount-in-selected-currency">
-          {{ getAmountInSelectedCurrency(cost.amount) }}
-        </div>
-        <small>
-          <div
-            class="fw-light text-secondary"
-            data-testid="amount-in-base-currency"
-          >
-            {{ getAmountInBaseCurrency(cost.amount) }}
-          </div>
-        </small>
-      </td>
-      <td class="text-center">
-        <a
-          class="text-decoration-none text-black"
-          data-bs-toggle="collapse"
-          [href]="'#cost-item-' + costItem.id"
-          role="button"
-          aria-expanded="false"
-          data-testid="comment-icon"
-        >
-          <i class="bi bi-chat-square me-2 text-secondary"></i
-          >{{ costItem.comments ? costItem.comments.length : 0 }}
-        </a>
-      </td>
-    </tr>
-    <tr
-      *ngIf="costItem.comments && costItem.comments.length > 0"
-      class="comment collapse"
-      [id]="'cost-item-' + costItem.id"
-      data-testid="comment-item"
-    >
-      <td colspan="5">
-        <app-comments [comments]="costItem.comments"></app-comments>
-      </td>
-    </tr>
-  </tbody>
+      <app-cost-item
+        #wrapper
+        [costItem]="costItem"
+        [exchange]="exchange"
+        [baseCurrency]="baseCurrency"
+        (amountUpdated)="recalculateTotal($event)"
+      ></app-cost-item>
+      <ng-content *ngTemplateOutlet="wrapper.costItemTemplate"></ng-content>
+  </ng-container>
   <tfoot>
     <tr>
       <td>Total</td>
       <td></td>
       <td class="text-end">
-        <div data-testid="quoted-total-in-selected-currency">{{ getAmountInSelectedCurrency(totalQuoted) }}</div>
-        <small>
-          <div
-            class="fw-light text-secondary"
-            data-testid="quoted-total-in-base-currency"
-          >
-            {{ getAmountInBaseCurrency(totalQuoted) }}
-          </div></small
-        >
+        <app-amount-display
+          [amount]="totalQuoted"
+          [exchange]="exchange"
+          [baseCurrency]="baseCurrency"
+        ></app-amount-display>
       </td>
       <td class="text-end">
-        <div>{{ getAmountInSelectedCurrency(totalScreened) }}</div>
-        <small>
-          <div class="fw-light text-secondary">
-            {{ getAmountInBaseCurrency(totalScreened) }}
-          </div></small
-        >
+        <app-amount-display
+          [amount]="totalScreened"
+          [exchange]="exchange"
+          [baseCurrency]="baseCurrency"
+        ></app-amount-display>
       </td>
       <td></td>
     </tr>

@@ -1,11 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  BaseCurrency,
-  CostType,
-  Exchange,
-  Expense,
-} from '../../interfaces/voyage.types';
-import { CurrencyPipe } from '@angular/common';
+import {Component, Input, OnInit} from '@angular/core';
+import {BaseCurrency, CostItem, CostType, Exchange, Expense,} from '../../interfaces/voyage.types';
 
 @Component({
   selector: 'app-expense-categories',
@@ -16,8 +10,6 @@ export class ExpenseCategoriesComponent implements OnInit {
   @Input()
   expenseCategory: Expense;
   @Input()
-  selectedCurrency: string;
-  @Input()
   exchange: Exchange;
   @Input()
   baseCurrency: BaseCurrency;
@@ -25,38 +17,16 @@ export class ExpenseCategoriesComponent implements OnInit {
   totalQuoted: number = 0;
   totalScreened: number = 0;
 
-  constructor(private currencyPipe: CurrencyPipe) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.calculateTotal();
+    this.calculateTotal(this.expenseCategory.costItems);
   }
 
-  getAmountInSelectedCurrency(amount: number): string {
-    const convertedAmount = amount * (this.exchange?.exchangeRate || 1);
-    return (
-      this.currencyPipe.transform(
-        convertedAmount,
-        this.selectedCurrency,
-        'code',
-        '1.2-2'
-      ) || '-'
-    );
-  }
-
-  getAmountInBaseCurrency(amount: number): string {
-    const convertedAmount = amount * this.baseCurrency.exchangeRate || 1;
-    return (
-      this.currencyPipe.transform(
-        convertedAmount,
-        this.baseCurrency.currency,
-        'code',
-        '1.2-2'
-      ) || '-'
-    );
-  }
-
-  calculateTotal() {
-    this.expenseCategory.costItems.map((costItem) => {
+  calculateTotal(costItems: CostItem[]) {
+    this.totalQuoted = 0;
+    this.totalScreened = 0;
+    costItems.map((costItem) => {
       const quotedAmount = costItem.costs.find(
         (cost) => cost.type === CostType.Quoted
       )?.amount;
@@ -66,5 +36,27 @@ export class ExpenseCategoriesComponent implements OnInit {
       )?.amount;
       this.totalScreened += screenedAmount || 0;
     });
+  }
+
+  recalculateTotal(value: {costItem: CostItem, amount: number}){
+    const updateCosts = this.expenseCategory.costItems.map(costItem => {
+      if(costItem.id === value.costItem.id){
+        const costs = costItem.costs.map(cost => {
+          if(cost.type === CostType.Screened) {
+            return {
+              ...cost,
+              amount: value.amount/this.exchange.exchangeRate
+            }
+          }
+          return cost;
+        })
+        return{
+          ...costItem,
+          costs
+        }
+      }
+      return costItem;
+    });
+    this.calculateTotal(updateCosts);
   }
 }

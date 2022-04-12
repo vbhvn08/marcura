@@ -1,0 +1,15 @@
+<div class="input-group" data-testid="amount-in-selected-currency">
+  <div class="input-group-append">
+    <span class="input-group-text">{{exchange.toCurrency}}</span>
+  </div>
+  <input type="text" class="form-control text-right border-left-0" lang="en-EN" [value]="amount| number:'1.0-2'"
+         (change)="onValueChange($event)">
+</div>
+<small>
+  <div
+    class="fw-light text-secondary"
+    data-testid="amount-in-base-currency"
+  >
+    {{ inputAmount * (baseCurrency.exchangeRate|| 1) | currency: baseCurrency.currency: 'code': '1.2-2' }}
+  </div>
+</small>

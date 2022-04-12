@@ -14,7 +14,6 @@ export class CostsComponent implements OnInit {
   exchangeRates: Exchange[] = [];
   daCurrency: string = '';
   baseCurrency: BaseCurrency;
-  selectedCurrency: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,21 +25,19 @@ export class CostsComponent implements OnInit {
     this.expenses = costsResponse.costs;
     this.baseCurrency = costsResponse.baseCurrency;
     this.daCurrency = costsResponse.daCurrency.currency;
-    this.selectedCurrency = this.daCurrency;
-    this.setExchange();
     this.exchangeRates =
       this.route.snapshot.data['exchangeRates'].paymentCurrencies;
+    this.setExchange(this.daCurrency);
   }
 
   onCurrencySelect(selectedCurrency: any) {
-    this.selectedCurrency = selectedCurrency.target.value;
-    this.setExchange();
+    this.setExchange(selectedCurrency.target.value);
   }
 
-  setExchange() {
+  setExchange(selectedCurrency: string) {
     this.exchange = this.exchangeRates.find(
-      (rate) => rate.toCurrency === this.selectedCurrency
-    ) || ({} as Exchange)
+      (rate) => rate.toCurrency === selectedCurrency
+    ) || ({} as Exchange);
   }
 
   getCurrencyConversion(): string {
@@ -49,6 +46,6 @@ export class CostsComponent implements OnInit {
       exchangeRate,
       '1.2-4'
     );
-    return `1 ${this.baseCurrency?.currency} = ${transformRate} ${this.selectedCurrency}`;
+    return `1 ${this.baseCurrency?.currency} = ${transformRate} ${this.exchange.toCurrency}`;
   }
 }
