@@ -44,7 +44,7 @@ describe('CostsComponent', () => {
 
   it('should select currency dropdown to daCurrency', () => {
     spectator.detectChanges();
-    expect(spectator.component.selectedCurrency).toBe('SGD');
+    expect(spectator.component.exchange.toCurrency).toBe('SGD');
   });
 
   it('should show currency conversion value', () => {

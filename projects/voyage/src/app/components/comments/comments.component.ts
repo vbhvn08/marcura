@@ -12,12 +12,12 @@ export class CommentsComponent implements OnInit {
   comments: Comment[];
   commentType = Object.values(CommentType);
 
-  commentForm = this.fb.group({
+  commentForm = this.formbuilder.group({
     commentType: ['', Validators.required],
     comment: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private formbuilder: FormBuilder) { }
 
   ngOnInit(): void {}
 
