@@ -21,6 +21,23 @@
   </div>
   <div class="col-1 text-secondary text-center">
     <i class="bi bi-pencil me-2"></i>
-    <i class="bi bi-trash"></i>
+    <i class="bi bi-trash" (click)="onDelete(comment)"></i>
   </div>
 </div>
+<hr *ngIf="comments.length > 0"/>
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-3">
+      <select class="me-2 form-select form-select-sm d-inline w-auto" formControlName="commentType" required>
+        <option value="" selected>Select comment type</option>
+        <option *ngFor="let type of commentType" [value]="type">{{type}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" formControlName="comment" required>
+    </div>
+    <div class="col-1">
+      <button class="btn btn-secondary btn-block" type="submit" [disabled]="!commentForm.valid">Add</button>
+    </div>
+  </div>
+</form>

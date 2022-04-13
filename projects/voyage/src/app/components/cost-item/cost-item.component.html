@@ -33,13 +33,12 @@
     </td>
   </tr>
   <tr
-    *ngIf="costItem.comments && costItem.comments.length > 0"
     class="comment collapse"
     [id]="'cost-item-' + costItem.id"
     data-testid="comment-item"
   >
     <td colspan="5">
-      <app-comments [comments]="costItem.comments"></app-comments>
+      <app-comments [comments]="costItem?.comments || []"></app-comments>
     </td>
   </tr>
   </tbody>

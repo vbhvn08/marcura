@@ -11,6 +11,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { CostItemComponent } from './components/cost-item/cost-item.component';
 import { AmountDisplayComponent } from './components/amount-display/amount-display.component';
 import { AmountEditableComponent } from './components/amount-editable/amount-editable.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { AmountEditableComponent } from './components/amount-editable/amount-edi
     AmountDisplayComponent,
     AmountEditableComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule],
   providers: [CurrencyPipe, DecimalPipe],
   bootstrap: [AppComponent],
 })

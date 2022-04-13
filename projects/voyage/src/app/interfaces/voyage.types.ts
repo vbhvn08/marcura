@@ -70,3 +70,8 @@ export enum CostType {
   Quoted = 'Quoted',
   Screened = 'Screened',
 }
+
+export enum CommentType {
+  Internal = 'Internal',
+  External = 'External',
+}

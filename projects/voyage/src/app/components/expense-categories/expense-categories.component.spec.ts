@@ -1,7 +1,6 @@
 import {ExpenseCategoriesComponent} from './expense-categories.component';
 import {byTestId, Spectator} from "@ngneat/spectator";
-import {createComponentFactory, mockProvider} from "@ngneat/spectator/jest";
-import {CurrencyPipe} from "@angular/common";
+import {createComponentFactory } from "@ngneat/spectator/jest";
 import {costsResponseMock, exchangeRatesMock} from "../../app.mocks";
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
@@ -13,17 +12,12 @@ describe('ExpenseCategoriesComponent', () => {
     declarations: [],
     detectChanges: false,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [
-      mockProvider(CurrencyPipe, {
-        transform: (key: any) => key
-      }),
-    ],
+    providers: [],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     spectator.component.expenseCategory = costsResponseMock.costs[0] as any;
-    spectator.component.selectedCurrency = 'SGD';
     spectator.component.exchange = exchangeRatesMock.paymentCurrencies.find(paymentCurrency => paymentCurrency.toCurrency === 'SGD') as any;
     spectator.component.baseCurrency = costsResponseMock.baseCurrency;
 
